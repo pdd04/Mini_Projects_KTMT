@@ -1,4 +1,4 @@
-.data
+.data 
 	A: .word 0:100
 	Message: .asciiz "Nhap so phan tu mang: "
 	Message1: .asciiz "Nhap so: "
