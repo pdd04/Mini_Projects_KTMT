@@ -1,4 +1,4 @@
-.data
+.data 
 	String: .space 256
 	Message: .asciiz "Nhap vao xau ky tu: "
 	Message1: .asciiz "Tu co do dai dai nhat trong xau la: "
