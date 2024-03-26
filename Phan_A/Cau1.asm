@@ -1,6 +1,7 @@
 .data 
 	message: .asciiz "so nguyen la: "
 	message2: .asciiz ", "
+	
 .text
 	li $v0, 51 
 	la $a0, message 
