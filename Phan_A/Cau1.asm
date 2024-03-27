@@ -1,6 +1,7 @@
 .data 
 	message: .asciiz "so nguyen la: "
 	message2: .asciiz ", "
+	
 .text
 	li $v0, 51 
 	la $a0, message 
@@ -33,7 +34,6 @@ chia_het_cho_5:
 	# nếu i' < 5 -> t0 = 1
 	beq $t0, $zero, chia_het_cho_5
 	# nếu i' = 0 thì chia hết 
-	bne $s2 , $zero, kiem_tra_i
 	# nếu không chia hết cho số nào quay lại từ đầu
 	
 print_5: 
