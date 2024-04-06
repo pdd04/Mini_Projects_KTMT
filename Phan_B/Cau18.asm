@@ -2,8 +2,10 @@
 	A: 		.space 100
 	Message: 	.asciiz "Nhap so phan tu mang: "
 	Message1: 	.asciiz "Nhap so: "
-	Message2: 	.asciiz "So chan lon nhat nho hon moi so le trong mang la: "
+	Message2: 	.asciiz "So le nho nhat nho hon moi so chan trong mang la: "
 	Eror: 		.asciiz "So phan tu mang phai lon hon bang 1!\n"
+	Eror1:		.asciiz "Mang khong co so chan!\n"
+	Eror2:		.asciiz "Mang khong co so le hoac khong tim duoc so le thoa man de bai!\n"
 	
 .text
 main:
@@ -45,38 +47,10 @@ init:
 	addi 	$a2, $a1, 0	# $a2 = $a1 = address of A[0]
 	li	$s2, 0		# $s2 = i = 0
 	li	$t9, 2		# $t9 = 2
-	li	$s7, 999999	# $s7 = minOdd = gia tri le be nhat la 999999
+	li	$s7, -1		# $s7 = maxEven = gia tri chan lon nhat la -1
 	
-CheckOdd:	
-	beq	$s2, $s0, init2		# i = N => CheckMaxEven branch
-	lw	$t8, 0($a2)		# $t8 = A[i]
-	div	$t8, $t9		# A[i] % 2
-	mfhi	$t7			# Lay mode cua phep chia tren
-	beq	$t7, 1, CheckMinOdd	# Neu A[i] la so le thi xem so do la be nhat chua 
-	addi	$a2, $a2, 4		# address of next index
-	addi	$s2, $s2, 1		# i++
-	j	CheckOdd
-	
-CheckMinOdd:
-	slt	$t6, $t8, $s7		# Neu A[i] < minOdd => $t6 = 1
-	beq	$t6, 1, UpdateMinOdd	# Neu thoa man thi gan gia tri minOdd = A[i]
-
-UpdateMinOdd:
-	addi	$s7, $t8, 0		# minOdd = A[i]
-	addi	$a2, $a2, 4		# address of next index
-	addi	$s2, $s2, 1		# i++
-	j	CheckOdd
-	
-# -----------------------------------------------------------------------------
-# Sau khi tim duoc so le nho nhat, ta di tim so chan lon nhat nho hon so le do!
-init2:
-	addi 	$a2, $a1, 0	# $a2 = $a1 = address of A[0]
-	li	$s2, 0		# $s2 = i = 0
-	li	$t9, 2		# $t9 = 2
-	li	$s6, 0		# $s6 = maxEven = gia tri chan lonw nhat la 0
-
 CheckEven:	
-	beq	$s2, $s0, Print 	# i = N => CheckMaxEven branch
+	beq	$s2, $s0, CheckEror1	# i = N => CheckMaxEven branch
 	lw	$t8, 0($a2)		# $t8 = A[i]
 	div	$t8, $t9		# A[i] % 2
 	mfhi	$t7			# Lay mode cua phep chia tren
@@ -84,18 +58,58 @@ CheckEven:
 	addi	$a2, $a2, 4		# address of next index
 	addi	$s2, $s2, 1		# i++
 	j	CheckEven
-
+	
 CheckMaxEven:
-	sgt	$t6, $t8, $s6		# Neu A[i] > maxEven => $t6 = 1
-	slt	$t5, $t8, $s7		# Neu A[i] < minOdd => $t5 = 1
-	add	$t4, $t5, $t6		
-	beq	$t4, 2, UpdateMaxEven	# Neu thoa man hai dieu kien tren thi gan maxEven = A[i]
-
-UpdateMaxEven:
-	addi	$s6, $t8, 0		# maxEven = A[i]
+	sgt	$t6, $t8, $s7		# Neu A[i] > maxEven => $t6 = 1
+	beq	$t6, 1, UpdateMaxEven	# Neu thoa man thi gan gia tri maxEven = A[i]
 	addi	$a2, $a2, 4		# address of next index
 	addi	$s2, $s2, 1		# i++
 	j	CheckEven
+	
+UpdateMaxEven:
+	addi	$s7, $t8, 0		# maxEven = A[i]
+	addi	$a2, $a2, 4		# address of next index
+	addi	$s2, $s2, 1		# i++
+	j	CheckEven
+
+CheckEror1:
+	beq	$s7, -1, PrintEror1		# Neu khong tim duoc so chan thi error
+	
+# -----------------------------------------------------------------------------
+# Sau khi tim duoc so chan lon nhat, ta di tim so le nho nhat lon hon so chan do!
+init2:
+	addi 	$a2, $a1, 0	# $a2 = $a1 = address of A[0]
+	li	$s2, 0		# $s2 = i = 0
+	li	$t9, 2		# $t9 = 2
+	li	$s6, 999999	# $s6 = minOdd = gia tri chan lonw nhat la 999999
+
+CheckOdd:	
+	beq	$s2, $s0, CheckEror2 	# i = N => CheckMaxEven branch
+	lw	$t8, 0($a2)		# $t8 = A[i]
+	div	$t8, $t9		# A[i] % 2
+	mfhi	$t7			# Lay mode cua phep chia tren
+	beq	$t7, 1, CheckMinOdd	# Neu A[i] la so le thi xem so do la be nhat chua 
+	addi	$a2, $a2, 4		# address of next index
+	addi	$s2, $s2, 1		# i++
+	j	CheckOdd
+
+CheckMinOdd:
+	slt	$t6, $t8, $s6		# Neu A[i] < minOdd => $t6 = 1
+	sgt	$t5, $t8, $s7		# Neu A[i] > maxEven => $t5 = 1
+	add	$t4, $t5, $t6		
+	beq	$t4, 2, UpdateMinOdd	# Neu thoa man hai dieu kien tren thi gan minOdd = A[i]
+	addi	$a2, $a2, 4		# address of next index
+	addi	$s2, $s2, 1		# i++
+	j	CheckOdd
+
+UpdateMinOdd:
+	addi	$s6, $t8, 0		# minOdd = A[i]
+	addi	$a2, $a2, 4		# address of next index
+	addi	$s2, $s2, 1		# i++
+	j	CheckOdd
+
+CheckEror2:
+	beq	$s6, 999999, PrintEror2		# Neu khong tim duoc so le hoac khong so le nao thoa man thi error
 
 Print:
 	# In ra ket qua
@@ -112,4 +126,25 @@ PrintEror:
 	li 	$v0, 4
 	la 	$a0, Eror
 	syscall
+	
+	li	$t1, 0
+	li	$t2, 0
+	j 	main
+	
+PrintEror1:
+	li 	$v0, 4
+	la 	$a0, Eror1
+	syscall
+	
+	li	$t1, 0
+	li	$t2, 0
+	j 	main
+
+PrintEror2:
+	li 	$v0, 4
+	la 	$a0, Eror2
+	syscall
+	
+	li	$t1, 0
+	li	$t2, 0
 	j 	main
