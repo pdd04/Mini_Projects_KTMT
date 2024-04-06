@@ -109,7 +109,7 @@ UpdateMaxEven:
 	j	CheckEven
 
 CheckEror2:
-	beq	$s6, -1, PrintEror2	# Neu khong tim duoc so chan thi error
+	beq	$s6, -1, PrintEror2	# Neu khong tim duoc so chan hoac khong co so chan nao thoa man thi error
 
 Print:
 	# In ra ket qua
