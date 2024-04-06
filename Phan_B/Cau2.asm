@@ -4,7 +4,7 @@
     	Message1: 	.asciiz "Nhap so: "  
     	Message2: 	.asciiz "Nhap M: "  
     	Message3: 	.asciiz "Nhap N: "
-    	Message4: 	.asciiz "Cac so nam trong khoang (M,N) la: "  
+    	Message4: 	.asciiz "Cac so nam ngoai khoang (M,N) la: "  
     	Space: 		.asciiz " "  
     	Eror: 		.asciiz "N phai lon hon M!\n"  
 
@@ -44,25 +44,25 @@ input_array:
 	j 	input_array  		
 
 input_M_N:
-	li 	$v0, 4  		
+	li 	$v0, 4
     	la 	$a0, Message2  		
     	syscall  
     	
-    	li 	$v0, 5  	
+    	li 	$v0, 5  		
     	syscall 
     	
     	move 	$s1, $v0  		# Di chuyển M vào $s1
     	li 	$v0, 4  		
-    	la 	$a0, Message3  		# Tải địa chỉ của Message3 vào $a0
+    	la 	$a0, Message3  		
     	syscall  
     	
-    	li 	$v0, 5  		
+    	li 	$v0, 5  
     	syscall
     	
     	move 	$s2, $v0  		# Di chuyển N vào $s2
     	bge 	$s1, $s2, PrintEror  	# Nếu $s1 lớn hơn hoặc bằng $s2, nhảy đến nhãn PrintEror
     	li 	$v0, 4  		
-    	la 	$a0, Message4  		# Tải địa chỉ của Message4 vào $a0
+    	la 	$a0, Message4  		
     	syscall  
     	
     	li 	$t1, 0  		# $t1 = i = 0
@@ -70,16 +70,13 @@ input_M_N:
 loop:
     	beq 	$t1, $s0, exit  	# Nếu i bằng n, nhảy đến nhãn exit
     	lw 	$t0, 0($a1)  		# $t0 = A[0]
-    	bgt 	$t0, $s1, check  	# Nếu $t0 > M, nhảy đến nhãn check
+    	blt 	$t0, $s1, PrintNumber  	# Nếu $t0 < M, nhảy đến nhãn PrintNumber
+    	bgt 	$t0, $s2, PrintNumber   # Nếu $t0 > N, nhảy đến nhãn PrintNumber
     	
 continue:
     	addi 	$t1, $t1, 1  		# Tăng i lên 1
     	addi	$a1 $a1, 4  		# Tăng địa chỉ A[i] lên 4
-    	j 	loop  			
-
-check:
-    	blt 	$t0, $s2, PrintNumber   # Nếu $t0 < N, nhảy đến nhãn PrintNumber
-    	j 	continue  		
+    	j 	loop  					
 
 PrintNumber:
 	# In ra $t0

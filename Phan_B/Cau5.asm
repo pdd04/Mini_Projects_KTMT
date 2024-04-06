@@ -50,37 +50,37 @@ CheckArray:
 loop:
 	beq 	$t0, $v0, PrintResult	# if i = N - 1 => in ket qua
 	lw 	$v1, 0($t1)		# $v1 = A[i]
-	bltz 	$v1, FindMax    	# if $v1 < 0 FindMax
+	bgtz  	$v1, FindMin	  	# if $v1 > 0 FindMin
 	
 Continue:
 	addi 	$t0, $t0, 1		# i++
 	addi 	$t1, $t1, 4		# address of next index
 	j 	loop			
 	
-FindMax:
-	addi 	$t5, $v1, 0		# $t5 = A[i] = max tam thoi
+FindMin:
+	addi 	$t5, $v1, 0		# $t5 = A[i] = min tam thoi
 	addi 	$t2, $t1, 4		# adress of A[i + 1] = adress of A[j]
 	addi 	$t3, $t0, 1		# j = i + 1
 	
-Max:
+Min:
 	beq 	$t3, $s0, Update	# if j = N tiep tuc vong loop1
 	lw 	$s1, 0($t2)		# $s1 = A[j]
-	bgez 	$s1, Skip		# if $s1 >= 0 Skip
-	blt 	$s1, $t5, Skip		# if $s1 < $v1 Skip
-	addi 	$t5, $s1, 0		# Max = Max moi
-	addi 	$t4, $t2, 0		# vi tri Max
+	blez 	$s1, Skip		# if $s1 <= 0 Skip
+	bgt 	$s1, $t5, Skip		# if $s1 > $v1 Skip
+	addi 	$t5, $s1, 0		# Min = Min moi
+	addi 	$t4, $t2, 0		# vi tri Min
 	
 Skip:
 	addi 	$t3, $t3, 1		# j++
 	addi 	$t2, $t2, 4		# Address of A[j + 1]
-	j 	Max	
+	j 	Min	
 				
 Update:
-	beq 	$t5, $v1, Continue	# neu max = A[i] thi khong can swap
+	beq 	$t5, $v1, Continue	# neu min = A[i] thi khong can swap
 	
 	# swap
-	sw 	$t5, 0($t1)		# truyen gia tri max vao A[i]
-	sw 	$v1, 0($t4)		# truyen gia tri o A[i] vao vi tri Max
+	sw 	$t5, 0($t1)		# truyen gia tri min vao A[i]
+	sw 	$v1, 0($t4)		# truyen gia tri o A[i] vao vi tri Min
 	j 	Continue
 	
 PrintResult:
@@ -116,20 +116,20 @@ PrintEror:
 # Code C:
 #    int i = 0;
 #    while (i < N - 1) {
-#        if (A[i] < 0) {
-#            int max = A[i];
-#            int maxIndex = i;
+#        if (A[i] > 0) {
+#            int min = A[i];
+#            int minIndex = i;
 #            for (int j = i + 1; j < N; j++) {
-#                if (A[j] >= 0 || A[j] < max) 
+#                if (A[j] <= 0 || A[j] > min) 
 #                    continue;
 #                
-#                max = A[j];
-#                maxIndex = j;
+#                min = A[j];
+#                minIndex = j;
 #            }
-#            if (max != A[i]) {
+#            if (min != A[i]) {
 #                int temp = A[i];
-#                A[i] = max;
-#                A[maxIndex] = temp;
+#                A[i] = min;
+#                A[minIndex] = temp;
 #            }
 #        }
 #        i++;
