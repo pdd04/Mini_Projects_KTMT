@@ -4,7 +4,7 @@
     	Message1: 	.asciiz "Nhap so: "  
     	Message2: 	.asciiz "Nhap M: "  
     	Message3: 	.asciiz "Nhap N: "
-    	Message4: 	.asciiz "Cac so nam trong khoang (M,N) la:\n"  
+    	Message4: 	.asciiz "Cac so nam trong khoang (M,N) la: "  
     	Space: 		.asciiz " "  
     	Eror: 		.asciiz "N phai lon hon M!\n"  
 
@@ -30,11 +30,11 @@ input_array:
 	beq 	$t2, $s0, input_M_N  	# Nếu $t2 bằng $s0, nhảy đến nhãn input_M_N
 	add 	$t0, $a1, $t1  		# $t0 = address of A[0] + 4 * $t1 = A[i]
 	
-	li 	$v0, 4  		# Tải mã syscall để in chuỗi
-	la 	$a0, Message1 	 	# Tải địa chỉ của Message1 vào $a0
+	li 	$v0, 4  		
+	la 	$a0, Message1 	 	
 	syscall 			
     
-	li 	$v0, 5  		# Tải mã syscall để đọc số nguyên
+	li 	$v0, 5  		
 	syscall  			
 	
 	move 	$s1, $v0  		# Di chuyển số nguyên đã đọc vào $s1
@@ -44,24 +44,24 @@ input_array:
 	j 	input_array  		
 
 input_M_N:
-	li 	$v0, 4  		# Tải mã syscall để in chuỗi
+	li 	$v0, 4  		
     	la 	$a0, Message2  		
     	syscall  
     	
-    	li 	$v0, 5  		# Tải mã syscall để đọc số nguyên
+    	li 	$v0, 5  	
     	syscall 
     	
     	move 	$s1, $v0  		# Di chuyển M vào $s1
-    	li 	$v0, 4  		# Tải mã syscall để in chuỗi
+    	li 	$v0, 4  		
     	la 	$a0, Message3  		# Tải địa chỉ của Message3 vào $a0
     	syscall  
     	
-    	li 	$v0, 5  		# Tải mã syscall để đọc số nguyên
+    	li 	$v0, 5  		
     	syscall
     	
     	move 	$s2, $v0  		# Di chuyển N vào $s2
     	bge 	$s1, $s2, PrintEror  	# Nếu $s1 lớn hơn hoặc bằng $s2, nhảy đến nhãn PrintEror
-    	li 	$v0, 4  		# Tải mã syscall để in chuỗi
+    	li 	$v0, 4  		
     	la 	$a0, Message4  		# Tải địa chỉ của Message4 vào $a0
     	syscall  
     	
