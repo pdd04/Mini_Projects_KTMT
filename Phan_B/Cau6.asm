@@ -55,7 +55,7 @@ loop:
 Continue:
 	addi 	$t0, $t0, 1		# i++
 	addi 	$t1, $t1, 4		# address of next index
-	j loop				# return loop1
+	j 	loop			
 	
 FindMax:
 	addi 	$t5, $v1, 0		# $t5 = A[i] = max tam thoi
