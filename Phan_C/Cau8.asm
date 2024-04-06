@@ -22,10 +22,12 @@ set:
 	la $t0, string 
 	la $t1, string2
 	lb $s1, 0($t1) # ký tự cần đếm
+check:
 	bgt $s1, 122, error
 	blt $s1, 65, error
-	bge $s1, 97, compare1 # khi ký tự in hoa
-	ble $s1, 97, compare2 # khi ký tự in thường
+	bge $s1, 97, compare1 # khi ký tự in thường
+	ble $s1, 90, compare2 # khi ký tự in hoa
+	j error
 compare1: # lấy từng ký tự của xâu ra để so sánh
 	lb $s0, 0($t0)
 	beq $s0, $t2, print # khi duyệt hết thì in kết quả 
