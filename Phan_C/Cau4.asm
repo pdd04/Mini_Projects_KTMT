@@ -41,7 +41,7 @@ Check:
 
 RisePointer:
 	sub 	$t3, $a1, $t2		# $t3 = vi tri cuoi - vi tri dau
-	ble 	$t3, $v0, Skip		# if $t3 < count => skip
+	ble 	$t3, $v0, Skip		# if $t3 <= count => skip
 	addi 	$v0, $t3, 0		# count = $t3
 	addi 	$s2, $t2, 0		# Start character = gia tri dia chi luu o $t2
 	addi 	$s3, $a1, 0		# End character = gia tri dia tri ket thuc
