@@ -80,7 +80,6 @@ MaxFreq:
     	lb  	$t2, 0($sp)             # Load ký tự từ ngăn xếp
     	lw  	$t3, 4($sp)             # Load số lần xuất hiện của ký tự từ ngăn xếp
     	bgt 	$t3, $t1, UpdateMaxFreq    	# Nếu số lần xuất hiện của ký tự lớn hơn số lượng ký tự đã xét trước đó, cập nhật kết quả
-   	j   	ContinueFind			# Tiếp tục tìm ký tự chữ hoa xuất hiện nhiều nhất
 
 ContinueFind:
     	addi    $sp, $sp, 8	# Di chuyển con trỏ ngăn xếp
