@@ -66,3 +66,6 @@ Print:
 	move	$a0, $t2
 	syscall
 	
+	# exit
+	li	$v0, 10
+	syscall
