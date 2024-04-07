@@ -82,5 +82,28 @@ print:
 end:
 	li $v0, 10
 	syscall
-	
-	
+#i = 0
+#Z = 0
+#while(1){	
+# if(A[i] = NULL) break;
+# if(A[i] = 0 || A[i] = " " || 65 < A[i] < 90){
+# 	i++;
+# 	continue;
+# }
+# if(A[i] < 65 || B[i] < 65 || A[i] > 122 || B[i] > 122 || 90 < A[i] < 97 || 90 < B[i] < 97)
+# 	printf("xau khong hop le");
+# 	break;
+#}	
+#	for(j = 0; B[j] = NULL; j++){	
+#		if(A[i] = B[j]){
+#		i++
+#		continue
+#		}
+#	}
+#	Z++
+#	for(j = (i + 1); A[j] = NULL; j++){
+#		if(A[j] == A[i])A[j] = 0;
+#	}
+#	C[z] = A[i]
+#}
+#đến đây thì in C[] ra
