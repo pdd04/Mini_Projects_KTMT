@@ -33,7 +33,7 @@ exit:
 PushStack:
     	lb  	$t0, 0($a1)		# Load ký tự từ mảng String
     	beqz    $t0, FindMaxFreq	# Nếu gặp ký tự null (kết thúc chuỗi), chuyển sang tìm ký tự chữ hoa xuất hiện nhiều nhất
-    	blt 	$t0, 64, continue       # Nếu ký tự không thuộc bảng mã ASCII của chữ cái hoa, tiếp tục vòng lặp
+    	blt 	$t0, 65, continue       # Nếu ký tự không thuộc bảng mã ASCII của chữ cái hoa, tiếp tục vòng lặp
     	bgt 	$t0, 97, continue
     	jal 	Check                 	# Gọi hàm Check để kiểm tra và cập nhật số lần xuất hiện của ký tự chữ hoa
     	sb  	$t0, 0($sp)           	# Lưu ký tự chữ hoa vào ngăn xếp
